@@ -29,12 +29,31 @@ const etchaSketch = () => {
             square.addEventListener("mouseenter", draw);
         })
     }
-
     const draw = (e) => {
-        console.log(e.target, "effect triggered");
-        // update alpha +.1 every time the event is triggered up to 1.0
-        e.target.style.backgroundColor = "rgba(255, 0, 0, ${alpha})";
-        const alpha = 0.0;
+        const currentBackgroundColor = e.target.style.backgroundColor.match(/\d+/g);
+        console.log("backgroundColor", currentBackgroundColor);
+        let currentTransparency;
+        let newTransparency;
+        const randomR = Math.floor(Math.random() * 255).toString();
+        const randomG = Math.floor(Math.random() * 255).toString();
+        const randomB = Math.floor(Math.random() * 255).toString();
+        const newColorValue = "rgba(" + randomR + ", " + randomG + ", " + randomB + ", 0.1)";
+
+        console.log(currentBackgroundColor ? "backgroundColor Truthy" : "backgroundColor Falsy");
+
+        currentBackgroundColor
+        // if target has already been "drawn" on, take current rgba color and add 10% to transparency.  
+        // stop transparency from going 1.0
+        ? (
+            currentTransparency = parseFloat(currentBackgroundColor[3] + "." + currentBackgroundColor[4]),
+            console.log("currentTrans", currentTransparency),
+            newTransparency = currentTransparency + 0.1,
+            console.log("newTrans", newTransparency),
+            console.log(newTransparency),
+            e.target.style.backgroundColor = "rgba(" + currentBackgroundColor[0] + ", " + currentBackgroundColor[1] + ", " + currentBackgroundColor[2] + ", " + newTransparency 
+        ) : (
+            e.target.style.backgroundColor = newColorValue
+        )
     }
 
     const inputLimiter = () => {
@@ -46,7 +65,7 @@ const etchaSketch = () => {
         )
         : null;
     }
-
+    
     startButton.addEventListener("click", inputLimiter);
     startButton.addEventListener("click", createGrid);
 }
