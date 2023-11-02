@@ -37,6 +37,17 @@ const etchaSketch = () => {
         const alpha = 0.0;
     }
 
+    const inputLimiter = () => {
+        return (heightInput.value >= 100 || widthInput.value >= 100) ? 
+        (
+            console.log("Please enter size values under 100"),
+            heightInput.value = null, 
+            widthInput.value = null
+        )
+        : null;
+    }
+
+    startButton.addEventListener("click", inputLimiter);
     startButton.addEventListener("click", createGrid);
 }
 
